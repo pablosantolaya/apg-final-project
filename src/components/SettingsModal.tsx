@@ -34,12 +34,6 @@ const FIELDS: FieldDef[] = [
     description: 'Pulls recent company news to personalize outreach messages.',
     linkHref: 'https://newsapi.ai/register',
   },
-  {
-    key: 'apolloApiKey',
-    label: 'Apollo API Key',
-    description: 'Finds recruiter contact information at target companies.',
-    linkHref: 'https://app.apollo.io/#/settings/integrations/api',
-  },
 ];
 
 export function SettingsModal({ isOpen, onClose, settings, onSave }: Props) {

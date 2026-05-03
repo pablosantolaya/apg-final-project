@@ -8,8 +8,12 @@ export async function fetchCompanyNews(
   // Drop division suffixes ("Disney Entertainment and ESPN...") and skip exact-phrase
   // quoting so partial matches on the brand name still return results.
   const brand = company.split(/\s+and\s+/i)[0].trim();
+  const dateStart = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
   url.searchParams.set('keyword', brand);
+  url.searchParams.set('keywordLoc', 'title');
   url.searchParams.set('lang', 'eng');
+  url.searchParams.set('categoryUri', 'dmoz/Business');
+  url.searchParams.set('dateStart', dateStart);
   url.searchParams.set('articlesCount', '5');
   url.searchParams.set('sortBy', 'date');
   url.searchParams.set('apiKey', apiKey);

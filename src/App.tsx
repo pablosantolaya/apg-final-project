@@ -389,6 +389,7 @@ export default function App() {
                 onRefine={handleRefine}
                 refining={refining}
                 jobTitle={jobContext?.posting.title ?? ''}
+                resumeText={resumeText}
               />
             </div>
             {debugVisible && (

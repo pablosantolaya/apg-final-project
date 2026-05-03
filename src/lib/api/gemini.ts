@@ -17,8 +17,23 @@ const RESPONSE_SCHEMA = {
       },
       required: ['subject', 'body'],
     },
+    extractedRequirements: {
+      type: 'ARRAY',
+      items: { type: 'STRING' },
+    },
+    gaps: {
+      type: 'ARRAY',
+      items: {
+        type: 'OBJECT',
+        properties: {
+          requirement: { type: 'STRING' },
+          question: { type: 'STRING' },
+        },
+        required: ['requirement', 'question'],
+      },
+    },
   },
-  required: ['resume', 'coverLetter', 'coldEmail'],
+  required: ['resume', 'coverLetter', 'coldEmail', 'extractedRequirements', 'gaps'],
 };
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));

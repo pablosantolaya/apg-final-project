@@ -1,3 +1,8 @@
+export interface GapItem {
+  requirement: string;
+  question: string;
+}
+
 export interface GeneratedOutputs {
   resume: string;
   coverLetter: string;
@@ -5,6 +10,8 @@ export interface GeneratedOutputs {
     subject: string;
     body: string;
   };
+  extractedRequirements?: string[];
+  gaps?: GapItem[];
 }
 
 export interface TokenUsage {

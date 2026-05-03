@@ -37,20 +37,6 @@ export interface NewsAPIAIResponse {
   error?: { message: string };
 }
 
-export interface ApolloPersonRaw {
-  id: string;
-  name: string;
-  first_name: string;
-  last_name: string;
-  title: string | null;
-  linkedin_url: string | null;
-  email: string | null;
-}
-
-export interface ApolloResponse {
-  people: ApolloPersonRaw[];
-}
-
 // Normalized types used throughout the app
 
 export interface JobPosting {
@@ -70,16 +56,8 @@ export interface NewsArticle {
   url: string;
 }
 
-export interface Recruiter {
-  name: string;
-  title: string;
-  linkedinUrl: string | null;
-  email: string | null;
-}
-
 export interface JobContext {
   posting: JobPosting;
   news: NewsArticle[];
-  recruiters: Recruiter[];
   companyDomain: string;
 }

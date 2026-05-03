@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { GeneratedOutputs, TokenUsage, ChatHistories, RefinementKey } from '../types/generation';
 import type { OutputTab } from '../types';
 import { Spinner } from './Spinner';
 import { RefinementChat } from './RefinementChat';
+import { RequirementsChips } from './RequirementsChips';
+import { GapsForm } from './GapsForm';
+import { ResumeDiff } from './ResumeDiff';
 import { downloadTxt, downloadZip } from '../lib/export';
 
 interface Props {
@@ -17,6 +20,7 @@ interface Props {
   onRefine: (key: RefinementKey, instruction: string) => void;
   refining: RefinementKey | null;
   jobTitle: string;
+  resumeText: string;
 }
 
 const TABS: { id: OutputTab; label: string }[] = [
@@ -131,8 +135,12 @@ export function OutputsPanel({
   onRefine,
   refining,
   jobTitle,
+  resumeText,
 }: Props) {
   const [activeTab, setActiveTab] = useState<OutputTab>('resume');
+  const [showDiff, setShowDiff] = useState(false);
+
+  useEffect(() => { setShowDiff(false); }, [outputs]);
 
   const activeKey = TAB_TO_KEY[activeTab];
 
@@ -227,17 +235,43 @@ export function OutputsPanel({
         ) : (
           <div className="p-6">
             {/* Per-tab actions */}
-            <div className="flex justify-end gap-2 mb-4">
-              <button
-                onClick={() => downloadTxt(tabContent, TAB_FILENAME[activeTab])}
-                className="text-xs px-2.5 py-1.5 rounded-lg border border-neutral-200 text-neutral-600 hover:bg-neutral-50 transition-colors"
-              >
-                Download .txt
-              </button>
-              <CopyButton text={tabContent} />
+            <div className="flex items-center justify-between gap-2 mb-4">
+              {activeTab === 'resume' && (
+                <button
+                  onClick={() => setShowDiff(v => !v)}
+                  className="text-xs px-2.5 py-1.5 rounded-lg border border-neutral-200 text-neutral-600 hover:bg-neutral-50 transition-colors"
+                >
+                  {showDiff ? 'Hide changes' : 'Show changes'}
+                </button>
+              )}
+              <div className="flex gap-2 ml-auto">
+                <button
+                  onClick={() => downloadTxt(tabContent, TAB_FILENAME[activeTab])}
+                  className="text-xs px-2.5 py-1.5 rounded-lg border border-neutral-200 text-neutral-600 hover:bg-neutral-50 transition-colors"
+                >
+                  Download .txt
+                </button>
+                <CopyButton text={tabContent} />
+              </div>
             </div>
 
-            <FormattedText text={tabContent} />
+            {activeTab === 'resume' && (
+              <RequirementsChips requirements={outputs.extractedRequirements} />
+            )}
+
+            {activeTab === 'resume' && showDiff ? (
+              <ResumeDiff original={resumeText} tailored={outputs.resume} />
+            ) : (
+              <FormattedText text={tabContent} />
+            )}
+
+            {activeTab === 'resume' && (
+              <GapsForm
+                gaps={outputs.gaps}
+                onApply={instruction => onRefine('resume', instruction)}
+                applying={refining === 'resume'}
+              />
+            )}
 
             <RefinementChat
               history={chatHistories[activeKey]}

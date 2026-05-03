@@ -31,7 +31,7 @@ export function InputsPanel({
   const [newsError, setNewsError] = useState<string | null>(null);
 
   const handleJobSelect = async (posting: JobPosting) => {
-    onJobContextChange({ posting, news: [], recruiters: [], companyDomain: '' });
+    onJobContextChange({ posting, news: [], companyDomain: '' });
 
     if (!posting.company || !settings.newsApiKey) return;
 
@@ -39,7 +39,7 @@ export function InputsPanel({
     setNewsError(null);
     try {
       const news = await fetchCompanyNews(posting.company, settings.newsApiKey);
-      onJobContextChange({ posting, news, recruiters: [], companyDomain: '' });
+      onJobContextChange({ posting, news, companyDomain: '' });
     } catch (e) {
       setNewsError(e instanceof Error ? e.message : 'News unavailable');
     } finally {

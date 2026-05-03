@@ -183,7 +183,7 @@ export function JobPostingCard({ posting, apiKey, onSelect, onClear }: Props) {
           type="text"
           value={pasteCompany}
           onChange={e => setPasteCompany(e.target.value)}
-          placeholder="Company name (needed for news and recruiter lookup)"
+          placeholder="Company name (required for news lookup)"
           className="w-full px-3 py-2 text-xs rounded-lg border border-neutral-200 bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all placeholder-neutral-300"
         />
         <div className="flex items-center justify-between pt-1">
@@ -195,7 +195,7 @@ export function JobPostingCard({ posting, apiKey, onSelect, onClear }: Props) {
           </button>
           <button
             onClick={handlePasteSubmit}
-            disabled={!rawText.trim()}
+            disabled={!rawText.trim() || !pasteCompany.trim()}
             className="px-3 py-2 text-xs font-semibold text-white bg-accent rounded-lg hover:opacity-90 disabled:opacity-40 transition-opacity"
           >
             Use this posting

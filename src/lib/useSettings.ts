@@ -7,7 +7,6 @@ const defaults: Settings = {
   geminiApiKey: '',
   jsearchApiKey: '',
   newsApiKey: '',
-  apolloApiKey: '',
 };
 
 export function useSettings() {
